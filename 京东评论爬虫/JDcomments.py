@@ -27,12 +27,14 @@ def getAndSave(page):
         path = r"D:\study_Progame\Python\spider\京东评论爬虫"
         data.to_csv(path + r"\ipad2017comments.csv",header=False,index=False,mode="a")
         print("正在保存第%s页第%s个评论" % (page, id))
+
 def spider():
     for page in range(1,999):
         try:
             getAndSave(page)
         except:
             continue
+
 def findPrice():            #从爬取的评论中，找到与价格相关的评论
     with open(r"D:\study_Progame\Python\spider\京东评论爬虫\ipad2017comments.csv","r") as commentsfile:
         for readline in commentsfile:
