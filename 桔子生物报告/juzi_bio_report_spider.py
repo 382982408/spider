@@ -22,7 +22,7 @@ def content_list():
         pickle.dump(test_project, f)
 
     # 数据结构 {'1': {'path': '521.html', 'title': '丙肝治疗反应', 'level': '1.22'},……}
-    print(test_project)
+    # print(test_project)
     return test_project
 
 def single_page_spider(path):
@@ -52,26 +52,32 @@ def process():
     num = 1
     final_result = []
     for each_project in test_project.values():
-        path = each_project["path"]
-        # name_project = each_project["title"]
-        # chapter_project = each_project["level"]
-        description = single_page_spider(path=path)
-        each_project["description"] = description
+        try:
 
-        #字典内key值改名
-        each_project["chapter"] = each_project.pop("level")
-        each_project["name"] = each_project.pop("title")
-        each_project["path"] = "http://www.juzisw.com/u/jay/" + each_project["path"]
+            path = each_project["path"]
+            # name_project = each_project["title"]
+            # chapter_project = each_project["level"]
+            description = single_page_spider(path=path)
+            each_project["description"] = description
 
-        final_result.append(each_project)
+            #字典内key值改名
+            each_project["chapter"] = each_project.pop("level")
+            each_project["name"] = each_project.pop("title")
+            each_project["path"] = "http://www.juzisw.com/u/jay/" + each_project["path"]
 
-        print("正在爬取第%s个检测项目……………………" % num)
+            final_result.append(each_project)
 
-        pprint(each_project)
-        num += 1
+            print("正在爬取第%s个检测项目……………………" % num)
 
-        data = pandas.
-        data.to_csv("temp_file/final_result.csv", mode="w+")
+            # pprint(each_project)
+            num += 1
+
+            dataBeforePandas = [(each_project["name"], each_project["chapter"], each_project["path"], each_project["description"])]
+            data = pandas.DataFrame(dataBeforePandas)
+            data.to_csv("temp_file/final_result.csv", header=False, index=False, mode="a+", encoding="utf-8")
+
+        except:
+            continue
     # 存储为pickle，方便后期再次使用
     with open(r"temp_file/final_result.pkl", "wb") as fp:
         pickle.dump(final_result, fp)
