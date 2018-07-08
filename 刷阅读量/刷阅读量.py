@@ -29,12 +29,17 @@ def access_superchao():
 
 def add_count():
     n = 0
-    for i in range(100):
-        access_mysite()
+    for i in range(1000):
+        access_superchao()
         n += 1
         print(n)
 
 if __name__ == '__main__':
-    for i in range(5):
-        t = threading.Thread(target=add_count, name="hechao")
-        t.start()
+    threads = []
+    for i in range(4):
+        t = threading.Thread(target=add_count, name="hechao"+str(i))
+        threads.append(t)
+    for thread in threads:
+        thread.start()
+    thread.join()
+    print("all done.")
